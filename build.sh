@@ -110,3 +110,5 @@ case "$extra" in
         brunch $device
         ;;
 esac
+
+exit 1
