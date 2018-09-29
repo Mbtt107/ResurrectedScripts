@@ -21,6 +21,13 @@ echo "========================"
 echo "Updating packages..."
 sudo apt-get update
 
+echo "Installing Java Development Kit..."
+if [ "$branch" == lineage-15.1 ]; then
+    sudo apt-get update openjdk-8-jdk
+else
+    sudo apt-get update openjdk-7-jdk
+fi
+
 echo "Installing necessary packages..."
 sudo apt-get install bc bison build-essential ccache curl flex g++-multilib gcc-multilib git \
              gnupg gperf imagemagicklib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool \
