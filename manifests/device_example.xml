@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <remote  name="remote_name"
+           fetch="https://github.com/fetch_address"
+           revision="branch" />
+
+  <!--Repositories-->
+  <project name="Username/repository_name" path="path/to/repository" remote="remote_name" revision="branch" />
+  <project name="Username/repository_name" path="path/to/repository" remote="remote_name" revision="branch" />
+  <project name="Username/repository_name" path="path/to/repository" remote="remote_name" revision="branch" />
+</manifest>
