@@ -34,8 +34,8 @@ sudo apt-get install bc bison build-essential ccache curl flex g++-multilib gcc-
              libncurses5-dev libsdl1.2-devlibssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop \
              pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev
 
-echo "Installing Maven Package..."
 if [ "$branch" == cm-13.0 ]; then
+    echo "Installing Maven Package..."
     sudo apt-get install maven
 fi
 
@@ -44,35 +44,22 @@ PATH=~/bin:$PATH
 curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
 chmod a+x ~/bin/repo
 
-# Create and navigate to rom folder
-if [ ! -d "lineage" ]; then
-    mkdir lineage
-fi
-cd lineage
-
-function sync(){
-    repo init -u https://github.com/LineageOS/android $branch
-    repo sync -j32 --no-clone-bundle --no-tags
-}
-
 # Initialize lineage repositories and sync
 if [ -d "lineage" ]; then
-    echo "Source already exists. Do you want to synchronize again? [y/n]"
-    read -r SELECT
-    if [ "$SELECT" == y ]; then
-        sync
-    elif [ "$SELECT" == n ]; then
-        echo "Process continues without synchronization..."
-    fi
+    echo "Source already exists."
 else
+    # Create and navigate to rom folder
+    mkdir lineage
+    cd lineage
     echo "Starting synchronization..."
-    sync
+    repo init -u https://github.com/LineageOS/android $branch
+    repo sync -j32 --no-clone-bundle --no-tags
 fi
 
 # Copy roomservice manifest to local_manifests
 if [ -n "$device" ]; then
     cd ..
-    cp manifests/$device.xml lineage/.repo/local_manifests/roomservice.xml
+    cp $device.xml lineage/.repo/local_manifests/roomservice.xml
     cd lineage
     repo sync -j32
 fi
@@ -102,9 +89,6 @@ case "$extra" in
         echo "Compiling ${module}..."
         make $module
         ;;
-    clean)
-        echo "Cleaning up..."
-        make clean
     *)
         echo "Compiling full system..."
         brunch $device
